@@ -17,12 +17,10 @@ app.use((req, res, next)=>{
 });
 
 app.get('/celciustofahrenheit', (req, res) => {
-    console.log('CTF from: ', req.originalUrl)
     res.send(celciusToFahrenheit);
 });
 
 app.get('/recognizenumber', (req, res) => {
-  console.log('RN from: ', req.originalUrl)
   res.send(celciusToFahrenheit);
 });
 module.exports = app;
