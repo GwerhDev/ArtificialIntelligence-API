@@ -7,7 +7,8 @@ const app = express();
 app.use(morgan('dev'));
 
 app.get('/celciustofahrenheit', (req, res) => {
-  res.send(celciusToFahrenheit);
+    console.log('CTF from: ', req.originalUrl)
+    res.send(celciusToFahrenheit);
 });
 
 app.listen(3000, () => {
