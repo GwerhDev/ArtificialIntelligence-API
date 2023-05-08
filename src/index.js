@@ -1,16 +1,14 @@
-const express = require('express');
-const morgan = require('morgan');
-const celciusToFahrenheit = require('./neuralnetwork/CelciusToFahrenheit/model.json')
+const port = process.env.PORT || 3000
+const server = require('./app');
+const { sequelize } = require("./db.js");
 
-const app = express();
-
-app.use(morgan('dev'));
-
-app.get('/celciustofahrenheit', (req, res) => {
-    console.log('CTF from: ', req.originalUrl)
-    res.send(celciusToFahrenheit);
-});
-
-app.listen(3000, () => {
-  console.log('Servidor iniciado en el puerto 3000');
-});
+async function main() {
+    try {
+      await sequelize.sync({force: true});  
+      console.log("succesfully connected");
+      server.listen(port, ()=> console.log(`server listening on port ${port}`))//MODO PRUEBAS
+    } catch (error) {
+      console.error("Unable to connect to database");
+    }
+}
+main();
