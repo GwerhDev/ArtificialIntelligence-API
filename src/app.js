@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const celciusToFahrenheit = require('./neuralnetwork/CelciusToFahrenheit/exported/model.json')
+const recognizeNumber = require('./neuralnetwork/RecognizeNumber/exported/model.json')
 
 const app = express();
 
@@ -17,13 +18,11 @@ app.use((req, res, next)=>{
 
 app.get('/celciustofahrenheit', (req, res) => {
     console.log('CTF from: ', req.originalUrl)
-    console.log('Sending: ', celciusToFahrenheit)
     res.send(celciusToFahrenheit);
 });
 
-app.listen(3000, () => {
-
-  console.log('Servidor iniciado en el puerto 3000');
+app.get('/recognizenumber', (req, res) => {
+  console.log('RN from: ', req.originalUrl)
+  res.send(celciusToFahrenheit);
 });
-
 module.exports = app;
