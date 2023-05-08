@@ -1,9 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
-const celciusToFahrenheit = require('./neuralnetwork/CelciusToFahrenheit/exported/model.json')
-const recognizeNumber = require('./neuralnetwork/RecognizeNumber/exported/model.json')
-
 const app = express();
+const routes = require('./routes/index.js');
 
 app.use(morgan('dev'));
 
@@ -16,11 +14,6 @@ app.use((req, res, next)=>{
   next();
 });
 
-app.get('/celciustofahrenheit', (req, res) => {
-    res.send(celciusToFahrenheit);
-});
+app.use('/', routes);
 
-app.get('/recognizenumber', (req, res) => {
-  res.send(celciusToFahrenheit);
-});
 module.exports = app;
