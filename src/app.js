@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const celciusToFahrenheit = require('./neuralnetwork/CelciusToFahrenheit/model.json')
+const celciusToFahrenheit = require('./neuralnetwork/CelciusToFahrenheit/exported/model.json')
 
 const app = express();
 
