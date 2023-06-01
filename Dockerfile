@@ -1,30 +1,39 @@
-FROM debian:bullseye as builder
+# syntax = docker/dockerfile:1
 
-ENV PATH=/usr/local/node/bin:$PATH
+# Adjust NODE_VERSION as desired
 ARG NODE_VERSION=18.15.0
+FROM node:${NODE_VERSION}-slim as base
 
-RUN apt-get update; apt install -y curl python-is-python3 pkg-config build-essential && \
-    curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-rm -rf /tmp/node-build-master
+LABEL fly_launch_runtime="NodeJS"
 
-RUN mkdir /app
+# NodeJS app lives here
 WORKDIR /app
 
-COPY . .
+# Set production environment
+ENV NODE_ENV=production
 
+
+# Throw-away build stage to reduce size of final image
+FROM base as build
+
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install -y python-is-python3 pkg-config build-essential 
+
+# Install node modules
+COPY --link package.json package-lock.json .
 RUN npm install
 
+# Copy application code
+COPY --link . .
 
-FROM debian:bullseye-slim
 
-LABEL fly_launch_runtime="nodejs"
 
-COPY --from=builder /usr/local/node /usr/local/node
-COPY --from=builder /app /app
+# Final stage for app image
+FROM base
 
-WORKDIR /app
-ENV NODE_ENV production
-ENV PATH /usr/local/node/bin:$PATH
+# Copy built application
+COPY --from=build /app /app
 
+# Start the server by default, this can be overwritten at runtime
 CMD [ "npm", "run", "start" ]
