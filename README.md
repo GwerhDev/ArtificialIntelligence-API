@@ -4,7 +4,7 @@ The models have been trained with machine learning techniques.
 
 ## Usage
 
-From client, you can use TensorFlow library to fetch the next models
+From client, you can use TensorFlow library to fetch the next models:
 
 
 ### Celcius to Fahrenheit
