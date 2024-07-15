@@ -12,3 +12,15 @@ From client, you can use TensorFlow library to fetch the next models
 GET /celsiustofahrenheit/model
 ```
 Returns Celcius to Fahrenheit model
+
+### Recognize Number
+```
+GET /recognizenumber/model
+```
+Returns Recognize Number model
+
+### Recognize Cat or Dog
+```
+GET /recognizecatordog/model
+```
+Returns Recognize Cat or Dog model
